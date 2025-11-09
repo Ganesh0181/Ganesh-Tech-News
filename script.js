@@ -4,15 +4,22 @@ const searchInput = document.getElementById('search-input');
 const searchButton = document.getElementById('search-button');
 const loader = document.getElementById('loader');
 
+if (apiKey === 'YOUR_API_KEY' || apiKey === '') {
+    alert('Please add your News API key to script.js');
+    newsContainer.innerHTML = '<p>Please add your News API key to script.js to fetch news articles.</p>';
+}
+
 // Fetch latest tech news on page load
 window.addEventListener('load', () => {
-    fetchNews('technology');
+    if (apiKey !== 'YOUR_API_KEY' && apiKey !== '') {
+        fetchNews('technology');
+    }
 });
 
 // Fetch news when search button is clicked
 searchButton.addEventListener('click', () => {
     const searchTerm = searchInput.value.trim();
-    if (searchTerm) {
+    if (searchTerm && apiKey !== 'YOUR_API_KEY' && apiKey !== '') {
         fetchNews(searchTerm);
     }
 });
@@ -22,11 +29,14 @@ async function fetchNews(query) {
     newsContainer.innerHTML = '';
     try {
         const response = await fetch(`https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`);
+        if (response.status === 401) {
+            throw new Error('Invalid API key. Please check your API key in script.js.');
+        }
         const data = await response.json();
         displayNews(data.articles);
     } catch (error) {
         console.error('Error fetching news:', error);
-        newsContainer.innerHTML = '<p>Error fetching news. Please try again later.</p>';
+        newsContainer.innerHTML = `<p>${error.message}</p>`;
     } finally {
         loader.style.display = 'none';
     }
