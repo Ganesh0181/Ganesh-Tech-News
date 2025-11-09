@@ -1,51 +1,45 @@
-const apiKey = '7e6752adcdfe4f32934f5bc5dfcf27b6';
-const apiUrl = `https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=${apiKey}`;
+const apiKey = 'YOUR_API_KEY'; // Replace with your News API key
+const newsContainer = document.getElementById('news-container');
+const searchInput = document.getElementById('search-input');
+const searchButton = document.getElementById('search-button');
 
-async function fetchNews() {
+// Fetch latest tech news on page load
+window.addEventListener('load', () => {
+    fetchNews('technology');
+});
+
+// Fetch news when search button is clicked
+searchButton.addEventListener('click', () => {
+    const searchTerm = searchInput.value.trim();
+    if (searchTerm) {
+        fetchNews(searchTerm);
+    }
+});
+
+async function fetchNews(query) {
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(`https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`);
         const data = await response.json();
         displayNews(data.articles);
     } catch (error) {
         console.error('Error fetching news:', error);
+        newsContainer.innerHTML = '<p>Error fetching news. Please try again later.</p>';
     }
 }
 
 function displayNews(articles) {
-    const newsContainer = document.getElementById('newsContainer');
-    newsContainer.innerHTML = ''; // Clear previous content
-
+    newsContainer.innerHTML = '';
+    if (articles.length === 0) {
+        newsContainer.innerHTML = '<p>No news articles found.</p>';
+        return;
+    }
     articles.forEach(article => {
-        const articleElement = document.createElement('article');
-        articleElement.classList.add('article-item');
-
-        const { title, description, url, urlToImage } = article;
-
-        articleElement.innerHTML = `
-            <h2><a href="${url}" target="_blank">${title}</a></h2>
-            <p>${description}</p>
-            <img src="${urlToImage}" alt="${title}">
+        const newsArticle = document.createElement('div');
+        newsArticle.classList.add('news-article');
+        newsArticle.innerHTML = `
+            <h2><a href="${article.url}" target="_blank">${article.title}</a></h2>
+            <p>${article.description}</p>
         `;
-
-        newsContainer.appendChild(articleElement);
+        newsContainer.appendChild(newsArticle);
     });
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    fetchNews();
-
-    const searchForm = document.getElementById('searchForm');
-    searchForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const searchInput = document.getElementById('searchInput').value;
-        const searchUrl = `https://newsapi.org/v2/everything?q=${searchInput}&apiKey=${apiKey}`;
-
-        try {
-            const response = await fetch(searchUrl);
-            const data = await response.json();
-            displayNews(data.articles);
-        } catch (error) {
-            console.error('Error searching news:', error);
-        }
-    });
-});
