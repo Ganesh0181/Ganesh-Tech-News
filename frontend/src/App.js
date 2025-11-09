@@ -9,7 +9,7 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto p-4 bg-white dark:bg-gray-800 min-h-screen">
         <Routes>
           <Route path="/" element={<NewsList />} />
           <Route path="/favorites" element={<Favorites />} />
