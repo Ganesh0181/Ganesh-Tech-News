@@ -9,8 +9,9 @@ app.use(cors());
 
 app.get("/api/news", async (req, res) => {
   try {
+    const query = req.query.q || 'technology';
     const response = await axios.get(
-      `https://newsapi.org/v2/top-headlines?category=technology&apiKey=${process.env.NEWS_API_KEY}`
+      `https://newsapi.org/v2/everything?q=${query}&apiKey=${process.env.NEWS_API_KEY}`
     );
     res.json(response.data.articles);
   } catch (error) {

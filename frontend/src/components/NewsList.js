@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NewsCard from "./NewsCard"; // Import NewsCard
 
-const NewsList = () => {
+const NewsList = ({ searchTerm }) => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
 
@@ -10,7 +10,7 @@ const NewsList = () => {
     const fetchNewsData = async () => {
       setLoading(true); // Set loading to true before fetching
       try {
-        const response = await axios.get("http://localhost:5000/api/news");
+        const response = await axios.get(`http://localhost:5000/api/news?q=${searchTerm}`);
         setNews(response.data);
       } catch (err) {
         console.error(err);
@@ -19,7 +19,7 @@ const NewsList = () => {
       }
     };
     fetchNewsData();
-  }, []);
+  }, [searchTerm]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-gray-900 dark:text-white">
