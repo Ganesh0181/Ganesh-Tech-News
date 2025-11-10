@@ -6,18 +6,25 @@ import Favorites from './components/Favorites';
 import './App.css'; // Keep this for now, will be replaced by Tailwind later
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState('technology');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [category, setCategory] = useState('technology');
 
   const handleSearch = (term) => {
     setSearchTerm(term);
+    setCategory(''); // Clear category when searching
+  };
+
+  const handleCategoryChange = (cat) => {
+    setCategory(cat);
+    setSearchTerm(''); // Clear search term when changing category
   };
 
   return (
     <Router>
-      <Navbar onSearch={handleSearch} />
+      <Navbar onSearch={handleSearch} onCategoryChange={handleCategoryChange} />
       <div className="container mx-auto p-4 bg-white dark:bg-gray-800 min-h-screen">
         <Routes>
-          <Route path="/" element={<NewsList searchTerm={searchTerm} />} />
+          <Route path="/" element={<NewsList searchTerm={searchTerm} category={category} />} />
           <Route path="/favorites" element={<Favorites />} />
         </Routes>
       </div>

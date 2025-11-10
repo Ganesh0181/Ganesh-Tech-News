@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ onSearch }) => {
+const Navbar = ({ onSearch, onCategoryChange }) => {
   const [theme, setTheme] = useState('light');
   const [searchTerm, setSearchTerm] = useState('');
+  const categories = ['business', 'entertainment', 'health', 'science', 'sports', 'technology'];
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -26,6 +27,17 @@ const Navbar = ({ onSearch }) => {
     <nav className="bg-gray-800 dark:bg-gray-900 p-4 text-white flex justify-between items-center">
       <Link to="/" className="text-2xl font-bold">Ganesh Tech News</Link>
       <div className="flex items-center">
+        <div className="mr-4">
+          {categories.map(category => (
+            <button
+              key={category}
+              onClick={() => onCategoryChange(category)}
+              className="px-3 py-1 rounded-md bg-gray-700 hover:bg-gray-600 text-white ml-2 capitalize"
+            >
+              {category}
+            </button>
+          ))}
+        </div>
         <form onSubmit={handleSearch} className="mr-4">
           <input
             type="text"
