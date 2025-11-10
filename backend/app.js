@@ -3,9 +3,18 @@ import cors from "cors";
 import dotenv from "dotenv";
 import axios from "axios";
 
+import connectDB from "./config/db.js";
+
 dotenv.config();
 const app = express();
 app.use(cors());
+app.use(express.json()); // Add this line to parse JSON request bodies
+
+import favoritesRoutes from './routes/favorites.js';
+
+connectDB(); // Connect to the database
+
+app.use('/api/favorites', favoritesRoutes);
 
 app.get("/api/news", async (req, res) => {
   try {

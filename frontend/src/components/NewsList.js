@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NewsCard from "./NewsCard"; // Import NewsCard
 
+import { saveArticle } from '../services/api';
+
 const NewsList = ({ searchTerm, category }) => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
@@ -23,6 +25,15 @@ const NewsList = ({ searchTerm, category }) => {
     fetchNewsData();
   }, [searchTerm, category]);
 
+  const handleSaveArticle = async (article) => {
+    try {
+      await saveArticle(article);
+      alert('Article saved!');
+    } catch (error) {
+      alert('Failed to save article. It may already be in your favorites.');
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-gray-900 dark:text-white">
       {loading ? (
@@ -39,7 +50,7 @@ const NewsList = ({ searchTerm, category }) => {
         <p>No news articles found.</p>
       ) : (
         news.map((article, i) => (
-          <NewsCard key={i} article={article} />
+          <NewsCard key={i} article={article} onSave={handleSaveArticle} />
         ))
       )}
     </div>
