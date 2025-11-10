@@ -19,7 +19,7 @@
     "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build:css": "tailwindcss build src/index.css -o src/tailwind.css"
+    "build:css": "npx tailwindcss build src/index.css -o src/tailwind.css"
   },
   "eslintConfig": {
     "extends": [
