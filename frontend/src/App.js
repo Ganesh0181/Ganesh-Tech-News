@@ -5,6 +5,8 @@ import NewsList from './components/NewsList';
 import Favorites from './components/Favorites';
 import Login from './components/Login';
 import Register from './components/Register';
+import AdminDashboard from './components/AdminDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css'; // Keep this for now, will be replaced by Tailwind later
 
 import { Toaster } from 'react-hot-toast';
@@ -33,6 +35,14 @@ function App() {
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </Router>
