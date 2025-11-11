@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import NewsList from './components/NewsList';
 import Favorites from './components/Favorites';
+import Login from './components/Login';
+import Register from './components/Register';
 import './App.css'; // Keep this for now, will be replaced by Tailwind later
 
 import { Toaster } from 'react-hot-toast';
@@ -29,6 +31,8 @@ function App() {
         <Routes>
           <Route path="/" element={<NewsList searchTerm={searchTerm} category={category} />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
     </Router>

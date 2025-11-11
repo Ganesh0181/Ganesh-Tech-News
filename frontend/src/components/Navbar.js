@@ -52,6 +52,8 @@ const Navbar = ({ onSearch, onCategoryChange }) => {
         </form>
         <Link to="/" className="mr-4 hover:text-gray-300">Home</Link>
         <Link to="/favorites" className="mr-4 hover:text-gray-300">Favorites</Link>
+        <Link to="/login" className="mr-4 hover:text-gray-300">Login</Link>
+        <Link to="/register" className="mr-4 hover:text-gray-300">Register</Link>
         <button
           onClick={toggleTheme}
           className="px-3 py-1 rounded-md bg-gray-700 dark:bg-gray-700 hover:bg-gray-600 dark:hover:bg-gray-600 text-white"
