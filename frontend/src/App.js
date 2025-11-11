@@ -5,6 +5,8 @@ import NewsList from './components/NewsList';
 import Favorites from './components/Favorites';
 import './App.css'; // Keep this for now, will be replaced by Tailwind later
 
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [category, setCategory] = useState('technology');
@@ -21,6 +23,7 @@ function App() {
 
   return (
     <Router>
+      <Toaster />
       <Navbar onSearch={handleSearch} onCategoryChange={handleCategoryChange} />
       <div className="container mx-auto p-4 bg-white dark:bg-gray-800 min-h-screen">
         <Routes>
