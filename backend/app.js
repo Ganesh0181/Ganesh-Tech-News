@@ -12,11 +12,13 @@ app.use(express.json()); // Add this line to parse JSON request bodies
 
 import favoritesRoutes from './routes/favorites.js';
 import userRoutes from './routes/userRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 connectDB(); // Connect to the database
 
 app.use('/api/favorites', favoritesRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.get("/api/news", async (req, res) => {
   try {
