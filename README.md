@@ -9,6 +9,9 @@
 *   🌙 Dark/light theme UI
 *   📱 Responsive design
 *   🌐 Progressive Web App (PWA) for offline access
+*   💾 Save favorite news articles
+*   ⏳ Loading skeletons for better UX
+*   🗂️ Filter by category (AI, gadgets, software, startups, etc.)
 
 ---
 ## 💻 Technologies Used
@@ -20,9 +23,13 @@
 
 **Backend:**
 *   **Node.js (Express):** For building the RESTful API.
+*   **Mongoose:** For MongoDB object modeling.
 *   **Axios:** For making HTTP requests to the NewsAPI.org.
 *   **Dotenv:** For managing environment variables.
 *   **CORS:** For handling Cross-Origin Resource Sharing.
+
+**Database:**
+*   **MongoDB:** NoSQL database for storing favorite articles.
 
 **API Source:**
 *   **NewsAPI.org:** To fetch news articles.
@@ -69,10 +76,11 @@ Navigate to the `backend` directory, install dependencies, and set up environmen
 cd backend
 npm install
 ```
-Create a `.env` file in the root of the project (Ganesh-Tech-News/) with your News API key:
+Create a `.env` file in the root of the project (Ganesh-Tech-News/) with your News API key and MongoDB connection string:
 ```
 NEWS_API_KEY=your_api_key_here
 PORT=5000
+MONGODB_URI=your_mongodb_connection_string_here
 ```
 You can get a free API key from [NewsAPI.org](https://newsapi.org/).
 
@@ -112,11 +120,14 @@ The frontend development server will run on `http://localhost:3000`.
 *   **Browse News:** Visit the homepage to see the latest tech news.
 *   **Search:** Use the search bar in the navigation to find articles by keywords.
 *   **Toggle Theme:** Switch between dark and light mode using the button in the navigation.
-*   **Favorites:** (Coming Soon) Save your favorite articles.
+*   **Favorites:** Save articles to your favorites list and view them on the "Favorites" page.
 
 ---
 ## 🚀 API Endpoints
-*   `GET /api/news?q={query}`: Fetches tech news articles. `query` is optional, defaults to 'technology'.
+*   `GET /api/news?q={query}&category={category}`: Fetches tech news articles. `query` is optional, defaults to 'technology'. `category` is optional.
+*   `GET /api/favorites`: Retrieves all saved favorite articles.
+*   `POST /api/favorites`: Adds a new article to favorites. Requires article details in the request body.
+*   `DELETE /api/favorites/:id`: Removes a favorite article by its ID.
 
 ---
 ## 🐳 Docker Usage
@@ -124,12 +135,9 @@ The frontend development server will run on `http://localhost:3000`.
 *   `docker-compose down`: Stops and removes the containers, networks, and volumes.
 
 ---
-## 💡 Future Enhancements (Phase 7 - Extra Features)
+## 💡 Future Enhancements
 *   **Email newsletter:** (send daily top 5 tech news)
 *   **Admin dashboard:** (add custom posts)
-*   **Save favorite news:** (requires database integration)
-*   **Filter by category:** (AI, gadgets, software, startups, etc.)
-*   **Loading skeletons or infinite scroll:** (already implemented loading skeletons)
 
 ---
 ## 📝 Documentation (Phase 8)
