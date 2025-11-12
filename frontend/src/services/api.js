@@ -27,7 +27,7 @@ export const deleteFavorite = async (id) => {
 };
 
 export const getCustomNews = async () => {
-  const response = await axios.get(`${API_URL}/admin/news`);
+  const response = await axios.get(`${API_URL}/admin/news`, getConfig());
   return response.data;
 };
 
@@ -47,6 +47,13 @@ export const deleteArticle = async (id) => {
 };
 
 export const getArticle = async (id) => {
-  const response = await axios.get(`${API_URL}/admin/news/${id}`);
+  const response = await axios.get(`${API_URL}/admin/news/${id}`, getConfig());
   return response.data;
+};
+
+export const uploadImage = async (formData) => {
+  const config = getConfig();
+  config.headers['Content-Type'] = 'multipart/form-data';
+  const { data } = await axios.post(`${API_URL}/upload`, formData, config);
+  return data;
 };

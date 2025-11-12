@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getCustomNews, createArticle, deleteArticle } from '../services/api';
+import { getCustomNews, createArticle, deleteArticle, uploadImage } from '../services/api'; // Assuming uploadImage exists
 
 const AdminDashboard = () => {
   const [articles, setArticles] = useState([]);
@@ -9,6 +9,7 @@ const AdminDashboard = () => {
   const [url, setUrl] = useState('');
   const [urlToImage, setUrlToImage] = useState('');
   const [category, setCategory] = useState('');
+  const [image, setImage] = useState('');
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -21,13 +22,21 @@ const AdminDashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const newArticle = await createArticle({ title, description, url, urlToImage, category });
+      let imageUrl = urlToImage;
+      if (image) {
+        const formData = new FormData();
+        formData.append('image', image);
+        imageUrl = await uploadImage(formData);
+      }
+
+      const newArticle = await createArticle({ title, description, url, urlToImage: imageUrl, category });
       setArticles([...articles, newArticle]);
       setTitle('');
       setDescription('');
       setUrl('');
       setUrlToImage('');
       setCategory('');
+      setImage('');
       alert('Article created!');
     } catch (error) {
       alert('Failed to create article.');
@@ -51,6 +60,10 @@ const AdminDashboard = () => {
         <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">Create Article</h2>
         <form onSubmit={handleSubmit} className="p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md">
           {/* Form inputs for title, description, url, urlToImage, category */}
+          <div className="mb-4">
+            <label className="block text-gray-700 dark:text-gray-300">Image</label>
+            <input type="file" onChange={(e) => setImage(e.target.files[0])} className="w-full" />
+          </div>
           <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Create</button>
         </form>
       </div>
