@@ -45,3 +45,8 @@ export const deleteArticle = async (id) => {
   const response = await axios.delete(`${API_URL}/admin/news/${id}`, getConfig());
   return response.data;
 };
+
+export const getArticle = async (id) => {
+  const response = await axios.get(`${API_URL}/admin/news/${id}`);
+  return response.data;
+};

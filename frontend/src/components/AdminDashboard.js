@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getCustomNews, createArticle, deleteArticle } from '../services/api';
 
 const AdminDashboard = () => {
@@ -60,6 +61,7 @@ const AdminDashboard = () => {
             <div key={article._id} className="relative p-4 bg-white dark:bg-gray-700 rounded-lg shadow">
               <h3 className="font-bold text-lg mb-1 text-gray-900 dark:text-white">{article.title}</h3>
               <p className="text-gray-700 text-sm mb-2 dark:text-gray-300">{article.description}</p>
+              <Link to={`/admin/edit/${article._id}`} className="px-3 py-1 rounded-md bg-yellow-500 hover:bg-yellow-600 text-white mr-2">Edit</Link>
               <button onClick={() => handleDelete(article._id)} className="px-3 py-1 rounded-md bg-red-500 hover:bg-red-600 text-white">Delete</button>
             </div>
           ))}

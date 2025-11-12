@@ -67,4 +67,33 @@ const deleteArticle = async (req, res) => {
   }
 };
 
-export { createArticle, updateArticle, deleteArticle };
+// @desc    Get all news articles
+// @route   GET /api/admin/news
+// @access  Private/Admin
+const getArticles = async (req, res) => {
+  try {
+    const articles = await News.find({}).populate('author', 'name');
+    res.json(articles);
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+// @desc    Get a news article by ID
+// @route   GET /api/admin/news/:id
+// @access  Private/Admin
+const getArticleById = async (req, res) => {
+  try {
+    const article = await News.findById(req.params.id);
+
+    if (article) {
+      res.json(article);
+    } else {
+      res.status(404).json({ message: 'Article not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+export { createArticle, updateArticle, deleteArticle, getArticles, getArticleById };

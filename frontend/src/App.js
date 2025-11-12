@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import AdminDashboard from './components/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import EditArticle from './components/EditArticle';
 import './App.css'; // Keep this for now, will be replaced by Tailwind later
 
 import { Toaster } from 'react-hot-toast';
@@ -40,6 +41,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/edit/:id"
+            element={
+              <ProtectedRoute>
+                <EditArticle />
               </ProtectedRoute>
             }
           />
