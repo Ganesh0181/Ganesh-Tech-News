@@ -10,17 +10,15 @@
     "axios": "^1.13.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.9.5",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "npm run build:css && react-scripts start",
-    "build": "npm run build:css && react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "build:css": "npx tailwindcss build src/index.css -o src/tailwind.css"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -41,8 +39,8 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.45",
     "tailwindcss": "^4.1.17"
   }
 }
