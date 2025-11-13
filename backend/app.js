@@ -5,11 +5,13 @@ import dotenv from 'dotenv';
 import axios from 'axios';
 
 import connectDB from './config/db.js';
+import { sendNewsletter } from './utils/newsletter.js';
 
 import favoritesRoutes from './routes/favorites.js';
 import userRoutes from './routes/userRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import newsletterRoutes from './routes/newsletterRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -22,6 +24,7 @@ app.use('/api/favorites', favoritesRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/newsletter', newsletterRoutes);
 
 const __dirname = path.resolve();
 app.use('/backend/uploads', express.static(path.join(__dirname, '/backend/uploads')));
@@ -45,4 +48,8 @@ app.get('/api/news', async (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log('Server running on port 5000'));
+app.listen(5000, () => {
+  console.log('Server running on port 5000');
+  // Start the newsletter cron job
+  sendNewsletter();
+});

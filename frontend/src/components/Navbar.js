@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Navbar = ({ onSearch, onCategoryChange }) => {
   const [theme, setTheme] = useState('light');
   const [searchTerm, setSearchTerm] = useState('');
   const [userInfo, setUserInfo] = useState(null);
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
   const categories = ['business', 'entertainment', 'health', 'science', 'sports', 'technology'];
@@ -39,6 +41,17 @@ const Navbar = ({ onSearch, onCategoryChange }) => {
     navigate('/login');
   };
 
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('http://localhost:5000/api/newsletter/subscribe', { email });
+      alert('Subscribed successfully!');
+      setEmail('');
+    } catch (error) {
+      alert('Failed to subscribe.');
+    }
+  };
+
   return (
     <nav className="bg-gray-800 dark:bg-gray-900 p-4 text-white flex justify-between items-center">
       <Link to="/" className="text-2xl font-bold">Ganesh Tech News</Link>
@@ -64,6 +77,18 @@ const Navbar = ({ onSearch, onCategoryChange }) => {
           />
           <button type="submit" className="px-3 py-1 rounded-md bg-gray-700 hover:bg-gray-600 text-white ml-2">
             Search
+          </button>
+        </form>
+        <form onSubmit={handleSubscribe} className="mr-4">
+          <input
+            type="email"
+            placeholder="Subscribe to newsletter..."
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="px-2 py-1 rounded-md text-black"
+          />
+          <button type="submit" className="px-3 py-1 rounded-md bg-gray-700 hover:bg-gray-600 text-white ml-2">
+            Subscribe
           </button>
         </form>
         <Link to="/" className="mr-4 hover:text-gray-300">Home</Link>
