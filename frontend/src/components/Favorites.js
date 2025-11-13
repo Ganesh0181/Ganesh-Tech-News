@@ -1,58 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import { getFavoriteArticles, deleteFavoriteArticle } from '../services/api';
+import React, { useState, useEffect } from 'react';
+import { getFavorites, deleteFavorite } from '../services/api';
 import NewsCard from './NewsCard';
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFavorites = async () => {
-      setLoading(true);
       try {
-        const articles = await getFavoriteArticles();
-        setFavorites(articles);
+        const favoriteArticles = await getFavorites();
+        setFavorites(favoriteArticles);
       } catch (error) {
-        console.error('Failed to fetch favorites:', error);
-      } finally {
-        setLoading(false);
+        alert('Failed to fetch favorites.');
       }
     };
     fetchFavorites();
   }, []);
 
-  const handleRemove = async (id) => {
+  const handleDelete = async (id) => {
     try {
-      await deleteFavoriteArticle(id);
-      setFavorites(favorites.filter(fav => fav._id !== id));
-      alert('Article removed from favorites!');
+      await deleteFavorite(id);
+      setFavorites(favorites.filter(favorite => favorite._id !== id));
+      alert('Favorite removed!');
     } catch (error) {
-      alert('Failed to remove article.');
+      alert('Failed to remove favorite.');
     }
   };
 
   return (
-    <div className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
-      <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Favorite News</h1>
-      {loading ? (
-        <p>Loading favorites...</p>
-      ) : favorites.length === 0 ? (
-        <p className="text-gray-700 dark:text-gray-300">No favorite articles saved yet.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {favorites.map(article => (
-            <div key={article._id} className="relative">
-              <NewsCard article={article} onSave={() => {}} />
-              <button
-                onClick={() => handleRemove(article._id)}
-                className="absolute top-2 right-2 px-3 py-1 rounded-md bg-red-500 hover:bg-red-600 text-white"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">My Favorites</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {favorites.map(favorite => (
+          <div key={favorite._id} className="relative">
+            <NewsCard article={favorite.article} />
+            <button
+              onClick={() => handleDelete(favorite._id)}
+              className="absolute top-2 right-2 px-3 py-1 rounded-md bg-red-500 hover:bg-red-600 text-white"
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
